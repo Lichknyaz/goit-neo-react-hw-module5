@@ -1,16 +1,10 @@
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
 import { useEffect, useState } from "react";
-import {
-  fetchMovieById,
-  fetchMovieCast,
-  fetchMovieReview,
-} from "../../fetch-api";
+import { fetchMovieById } from "../../fetch-api";
 
 function MovieDetailsPage() {
-  const [cast, setCast] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [reviews, setReviews] = useState(null);
   const [movieDetails, setMovieDetails] = useState({
     title: "",
     year: "",
@@ -21,23 +15,6 @@ function MovieDetailsPage() {
   const { movieId } = useParams();
   const location = useLocation();
   const backLinkHref = location.state ?? "/movies";
-
-  useEffect(() => {
-    const fetchCast = async () => {
-      if (!cast) {
-        const result = await fetchMovieCast(movieId);
-        setCast(result);
-      }
-    };
-    const fetchReviews = async () => {
-      if (!reviews) {
-        const result = await fetchMovieReview(movieId);
-        setReviews(result);
-      }
-    };
-    fetchCast();
-    fetchReviews();
-  }, [movieId, cast, reviews]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -113,7 +90,7 @@ function MovieDetailsPage() {
               </ul>
             </div>
             <hr />
-            <Outlet context={{ cast, reviews }} />
+            <Outlet />
           </div>
         </div>
       )}

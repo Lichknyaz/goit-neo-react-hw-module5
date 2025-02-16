@@ -1,22 +1,34 @@
-import { useEffect } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchMovieReview } from "../../fetch-api";
 
 function MovieReviews() {
-  const { reviews } = useOutletContext();
-  const navigate = useNavigate();
+  const [reviews, setReviews] = useState(null);
+  const { movieId } = useParams();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!reviews) {
-      navigate("..", { replace: true });
-    }
-  }, [reviews, navigate]);
+    const fetchReviews = async () => {
+      try {
+        const result = await fetchMovieReview(movieId);
+        setReviews(result);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!reviews) {
-    return null;
+    fetchReviews();
+  }, [movieId]);
+
+  if (loading) {
+    return <p>Loading reviews...</p>;
   }
+
   return (
     <>
-      {reviews.length > 0 ? (
+      {reviews && reviews.length > 0 ? (
         <ul>
           {reviews.map((review) => {
             return (
