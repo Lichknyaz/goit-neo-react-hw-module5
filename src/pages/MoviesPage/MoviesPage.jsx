@@ -1,6 +1,6 @@
 import { lazy, useEffect, useState } from "react";
 import { fetchSearchMovie } from "../../fetch-api";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 const MovieList = lazy(() => import("../../components/MovieList/MovieList"));
@@ -11,7 +11,6 @@ function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFound, setIsFound] = useState(true);
   const search = searchParams.get("query");
-  const location = useLocation();
 
   useEffect(() => {
     if (search) {
@@ -40,7 +39,7 @@ function MoviesPage() {
     <div>
       <Toaster position="top-center" reverseOrder={false} />
       <SearchBar onSearch={(query) => setSearchParams({ query })} />
-      {isFound && <MovieList movies={searchMovies} location={location} />}
+      {isFound && <MovieList movies={searchMovies} />}
     </div>
   );
 }

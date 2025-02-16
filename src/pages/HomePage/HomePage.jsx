@@ -1,6 +1,5 @@
 import { lazy, useEffect, useState } from "react";
 import { fetchTrendingMovies } from "../../fetch-api";
-import { useLocation } from "react-router-dom";
 
 const MovieList = lazy(() => import("../../components/MovieList/MovieList"));
 
@@ -8,7 +7,6 @@ function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const location = useLocation();
 
   useEffect(() => {
     const handleTrendingMovies = async () => {
@@ -37,7 +35,7 @@ function HomePage() {
   return (
     <div>
       <h1>Trending</h1>
-      <MovieList movies={trendingMovies} location={location} />
+      <MovieList movies={trendingMovies} />
     </div>
   );
 }
