@@ -9,7 +9,7 @@ function MovieCast() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    const fetchCast = async () => {
       try {
         const result = await fetchMovieCast(movieId);
         setCast(result);
@@ -20,7 +20,7 @@ function MovieCast() {
       }
     };
 
-    fetchReviews();
+    fetchCast();
   }, [movieId]);
 
   if (loading) {
